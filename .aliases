@@ -1,4 +1,4 @@
-# vim: syntax=bash
+# vim: syntax=zsh
 source ~/bin/openrepo
 source ~/bin/sshcd
 source ~/bin/copypath
@@ -9,6 +9,7 @@ source ~/bin/work.aliases
 source ~/bin/tostaging_functions.sh
 
 # others
+#alias vim='nvim'
 alias eal="vim ~/.aliases; source ~/.aliases"
 alias wowza="vim ~/bin/wowza; source ~/bin/wowza"
 alias ealw="subl -w -n ~/bin/wowza && echo 'source ~bin/wowza' && source ~/bin/wowza"

@@ -6,4 +6,6 @@
 
 ## .tmux.conf
 
+## .aliases
+
 

@@ -1,6 +1,7 @@
 syntax on
 set nocompatible                        "不使用 Vi 舊設定的樣子, 不太確定用途
 set cursorline
+set wildmenu                            "讓 help 時更好用 :h pyt<tab>
 
 let mapleader=' '                       "The default leader
 set expandtab				"用 space 取代 tab
