@@ -1,0 +1,398 @@
+# vim: syntax=bash
+source ~/bin/openrepo
+source ~/bin/sshcd
+source ~/bin/copypath
+source ~/.aws/aws_aliases
+source ~/bin/follow
+source ~/bin/wowza
+source ~/bin/work.aliases
+source ~/bin/tostaging_functions.sh
+
+# others
+alias eal="vim ~/.aliases; source ~/.aliases"
+alias wowza="vim ~/bin/wowza; source ~/bin/wowza"
+alias ealw="subl -w -n ~/bin/wowza && echo 'source ~bin/wowza' && source ~/bin/wowza"
+alias ral="source ~/.aliases"
+alias erc="vim ~/.zshrc; source ~/.zshrc"
+alias rrc="source ~/.zshrc"
+alias etheme="vim ~/.oh-my-zsh/themes/twk_customize.zsh-theme"
+export EDITOR=vim
+alias pst='phpstorm'
+alias pstorm='phpstorm'
+alias crontab="VIM_CRONTAB=true crontab"
+alias sshconfig="vim ~/.ssh/config"
+
+## Vagrant Alias from Jeffery Way https://gist.github.com/JeffreyWay/af0ee7311abfde3e3b73
+alias lamp="curl -L -o 'install.sh' http://bit.ly/1hBfq57 && curl -L -o 'Vagrantfile' http://bit.ly/1mE3Qt9 && vagrant up"
+alias va="vagrant"
+alias vags="vagrant global-status --prune"
+alias vab="vagrant box"
+alias vabl="vagrant box list"
+alias varp="vagrant reload --provision"
+alias varm="vagrant destroy"
+
+# Time Machine On/Off
+alias tmup='sudo sysctl debug.lowpri_throttle_enabled=0'
+alias tmdown='sudo sysctl debug.lowpri_thoottle_enabled=1'
+
+# TwinkleDJ only
+
+## Display PHP error when execute in cli mode.
+alias apache='/Applications/MAMP/Library/bin/apachectl'
+alias apache2ctl='apache'
+alias apachectl='apache'
+# alias php='php -d display_errors'
+alias phpd='php -dxdebug.remote_autostart'
+alias php5='/Applications/MAMP/bin/php/php5.6.33/bin/php -c /Applications/MAMP/bin/php/php5.6.33/conf/php.ini'
+alias phplog='vim /Applications/MAMP/logs/php_error.log'
+
+## Use trash instead of rm
+alias rm='trash'
+alias rrm='command rm'
+
+## Sublime Text 3 editor quick start ##
+# ln -s /Applications/Sublime\ Text.app/Contents/SharedSupport/bin/subl /usr/local/bin/subl
+alias sl="subl -n -a . "
+alias sn="subl -n"
+
+# ========================
+# Shell Shortcut
+# ========================
+#
+## Clear Screen
+alias c='clear'
+
+## Use a long listing format ##
+alias ls='exa -g '
+alias l='lla'
+alias ll='ls -lh -snew'
+alias lla='ll -a'
+alias lg='lla | ag'
+
+## Show hidden files
+alias l.='ls -d .*'
+
+## Show folders
+alias ld='ll -d */'
+
+## Colorful cat: 'bat' https://github.com/sharkdp/bat#syntax-highlighting
+alias cat='bat --paging=never -p'
+alias bb='bat -p -n --color always'
+alias man='batman'
+
+## Exit
+alias ee='exit'
+
+## a quick way to get out of current directory
+alias ..='cd ..'
+alias ...='cd ../../'
+alias ....='cd ../../../'
+
+## Colorize the grep command output for ease of use (good for log files)##
+alias ag='ag -i'
+alias agf='ag -Q -U --hidden -g'
+alias agi='ag -Q --hidden'
+alias agg='ag -Q -U --hidden'
+alias agp='ag --php'
+alias grep='grep --color=auto'
+alias egrep='egrep --color=auto'
+alias fgrep='fgrep --color=auto'
+alias aa='bb ~/.aliases -l bash | ag'
+
+alias rgi='rg -i -F'
+alias rgg='rg -uu'
+
+## copy with file list
+alias cp='cp -v'
+
+## sudo vim
+alias vi='sudo vim'
+alias vimrc='vi ~/.vimrc.after'
+alias evm='vim ~/.vimrc'
+alias eivm='vim ~/.ideavimrc'
+
+## Composer
+alias composer='php -n /usr/local/bin/composer'
+alias getcomposer='curl -O https://getcomposer.org/composer.phar'
+alias proj='composer create-project --prefer-dist laravel/laravel'
+alias cpr='COMPOSER_MEMORY_LIMIT=-1 composer'
+alias cpri='cpr install'
+alias cprw='cpr why -r'
+alias cpry='cprw'
+alias cpd='cpr dump'
+alias cprrun='cpr run'
+alias cprr='cpr require'
+alias cpru='cpr update'
+alias cpr5='php5 /usr/local/bin/composer'
+alias cpr5i='cpr5 install'
+alias cpr5r='cpr5 require'
+alias cpr5u='cpr5 update'
+
+## php artisan
+alias ar='php artisan'
+alias tinker='rlwrap php artisan tinker'
+alias rebuild='ar migrate:refresh --seed'
+alias migs='ar migrate --seed'
+alias migr='ar migrate:refresh'
+alias migf='ar migrate:fresh'
+alias migrs='ar migrate:refresh --seed'
+alias mig='ar migrate'
+alias migrd='ar migrate:refresh --database'
+alias migd='ar migrate --database'
+alias arnt='ar make:migration --create='
+alias rollback='ar migrate:rollback'
+alias dbseed='ar db:seed'
+alias c:c='ar cache:clear && composer dump -o && ar optimize'
+alias m:m='ar make:model -m'
+alias m:r='ar make:request'
+alias m:seed='ar make:seed'
+alias m:c='ar make:controller --resource'
+alias m:mig='ar make:migration'
+
+## phpunit
+alias pt='./vendor/bin/phpunit'
+alias uu1='uu | head -20'
+alias uucrr='uucr report && open report/index.html'
+alias uus='uu --stop-on-failure'
+alias uuf='uu --filter'
+alias uucf='uuc --filter'
+alias uug='uu --group'
+alias uugs='uus --group'
+alias uucg='uuc --group'
+alias uukma='uu --group Kma'
+alias utkma='ut --group Kma'
+alias uuckma='uuc tests/app/Http/Controllers/Kma/*Test.php'
+alias uutap='uu --tap | tee tapReport.txt'
+
+## Time2Date, StrToTime
+alias d2t='str2time'
+alias t2d='time2date'
+
+## php codeception
+alias ct='./vendor/codeception/codeception/codecept'
+alias cr='ct --colors run'
+alias crnomail='cr --skip-group=EmailTest'
+alias crnoios='cr --skip-group=ValidateUser --skip-group=CreateiOSUser'
+
+## phpspec
+alias pp='vendor/bin/phpspec'
+alias ppr='clear && vendor/bin/phpspec run'
+
+## Behat
+alias bh='./vendor/bin/behat'
+alias bha='./vendor/bin/behat --append-snippets'
+
+## Mailcatcher (SMTP Mock)
+alias mailcatcher='mailcatcher --smtp-port=10250'
+
+## List opened ports
+alias openport='sudo lsof -i -P | grep -i "listen"'
+alias tcp='sudo netstat -antp tcp'
+
+## Git alias
+alias gl='git ll -9'
+alias gll="git log --pretty=format:'%Cred%h%Creset %Cgreen(%cd)%Creset -%C(yellow)%d%Creset %s %C(magenta bold)<%an>%Creset' --abbrev-commit -10"
+alias glt='git lt'
+alias glv='git lt'
+alias gb='git blame'
+alias clone='git clone'
+alias fa='git fetch --all'
+alias fk='fa && ck'
+alias st='git status'
+alias s='st'
+alias tmp='git stash'
+alias tmpki='tmp --keep-index'
+alias tmpd='git stash pop'
+alias tmpdrop='git stash drop'
+alias tmps='git stash show -p'
+alias tmpsc='git stash show -p --color-words'
+alias tmpl='git stash list'
+alias tmpcc='git stash clear'
+alias add='git add'
+alias adda='git add -A .'
+alias addp='git add -p'
+alias addu='git add -u'
+alias ci='git commit'
+alias cia='git commit --amend'
+alias cim='git commit -m'
+alias cimp='git commit -p -m'
+alias cima='git commit -a -m'
+alias diff='git difftool -y'
+alias tag='git tag'
+alias push='git push'
+alias pusht='git push --tags'
+alias pushu='currentBranch=`git rev-parse --abbrev-ref HEAD` && git push --set-upstream origin $currentBranch'
+alias plb='git pull --rebase'
+alias tplb='tmp && plb && tmpd'
+alias ck='git checkout'
+alias ckb='ck -b'
+alias ckfh='ck -f HEAD'
+alias bra='git for-each-ref --sort=-committerdate refs/heads/ --format="%(authordate:short) %(color:red)%(objectname:short) %(color:yellow)%(refname:short)%(color:reset) (%(color:green)%(committerdate:relative)%(color:reset))" --color=always'
+alias bbr='bra | HEAD -n 12'
+alias br='git branch'
+alias brv='br -vvv | ag `currentBr`'
+alias brg='br | ag '
+alias mgnf='git merge --no-ff'
+alias mg='git merge'
+alias pick='git cherry-pick'
+alias amend='msg=`git log -s --format=%s -1` && git commit -m"$msg" --amend'
+alias ama='adda && amend'
+alias gd='git diff'
+alias gds='git diff --staged'
+alias gdsc='gds --color-words'
+alias gdf='git diff'
+alias gdfc='gdf --color-words'
+alias gdh='git diff head'
+alias gdc='git log -1 -p'
+alias gdcc='gdc --color-words'
+alias rba='git rebase --abort'
+alias rbi='git rebase -i'
+alias rbc='git rebase --continue'
+alias rbk='git rebase --skip'
+alias rb='git rebase'
+alias remote='git remote'
+alias re='git remote'
+alias rv='git remote -v'
+alias ru='git remote get-url origin'
+alias rs='git reset'
+alias rh='git reset HEAD'
+alias rh1='git reset HEAD~'
+alias wt='git worktree'
+alias wta='git worktree add'
+alias wtl='git worktree list'
+alias wtp='git worktree prune'
+alias ccid="git log --no-color --reverse -1 --oneline | awk '{print \$1}'"
+alias pcid="git log --no-color --oneline -1 HEAD^ | awk '{print \$1}'"
+
+# Json formatter
+alias jsonformatter='python -m json.tool'
+alias jsontoarray='pbpaste | jsonToPhpArray | pbcopy'
+alias cbjsonformatter='pbpaste | jsonformatter | tee | pbcopy'
+alias pjq='pbpaste | jq'
+
+# Display colors in terminal
+alias showcolors='for code in {000..255}; do print -P -- "$code: %F{$code}Test%f"; done'
+
+# PHPQA
+alias phpqa='~/bin/phpqa/phpqa'
+alias qareport='phpqa --ignoredDirs tests --report && mv build/phpqa.html build/index.html && open build/index.html'
+
+# axel (multithread downlad)
+alias fget='axel -a -n 10'
+
+# gulp
+alias gp='gulp'
+
+# GO lang
+alias gor='go run'
+
+# PHP Parallel Lint
+alias lint="parallel-lint . --exclude vendor"
+
+# pbcopy
+alias copy="tr -d '\n' | pbcopy"
+alias ruc='ru | copy; echo "Copied: `pbpaste`"'
+alias brc='echo `currentBr` | copy; echo "Copied: `pbpaste`"'
+alias bru='echo `currentBr` | copy; echo "Copied: `pbpaste`"'
+alias rp='realpath'
+
+# Open repo
+alias currentBr='git rev-parse --abbrev-ref HEAD'
+alias ro='openGitRepo'
+alias rop='openGitPipelinePage'
+alias roi='openGitIssuePage'
+alias roc='getRepoUrl | copy; echo "Copyied: "`getRepoUrl`'
+alias rom='openGitMrPage'
+alias rot='openGitTagPage'
+alias roall='ro; rok'
+alias mr='mred'
+alias mrcs='mred; openGitMR `currentBr` staging Staging'
+alias mrcm='openGitMR `currentBr` master Production'
+alias mrct='openGitMR `currentBr` testing \[Testing\]'
+alias mrts='openGitMR testing staging Staging'
+alias mrsm='mred; openGitMR staging master Production'
+
+# Linkchecker
+alias linkchecker='docker run --rm -it -u $(id -u):$(id -g) -v "$PWD":/mnt linkchecker/linkchecker'
+
+# Session Curl
+alias curls='pbpaste > /tmp/cookie.txt && curl -b /tmp/cookie.txt'
+
+# Docker
+alias dk='docker'
+alias dc='docker container'
+alias di='docker image'
+alias dr='docker run'
+alias dbuild='docker build'
+
+# Monit
+alias monitup='z monit && monit && popd'
+alias monitdown='z monit && monit quit && popd'
+alias monitrl='z monit && monit reload && popd'
+alias monitmonitor='open http://localhost:2812'
+
+# Folder size du
+alias du='du -h'
+
+# FZF
+alias preview='fzf --height=80 --border --preview "cat {}"'
+alias fzp='fzf -i --height=80 --border --preview "cat {}"'
+alias fz='fzf -i --height=60'
+alias gck='git checkout $(git branch | fzf --cycle --border --ansi)'
+alias gadd="git status --short | fzf --multi --color=dark --cycle --border --ansi --preview-window=up:70% --preview=\"git diff --color {+2}\" | awk '{print \$2}'  | xargs git add"
+alias ports="lsof -Pn -i4 | awk '{printf \"%10s %6s %5s %4s %-20s\n\", \$1, \$2, \$3, \$8, \$9}' | fzf --border --cycle --ansi --header-lines=1"
+
+# Yarn
+alias ya='yarn add'
+alias yad='yarn add -D'
+alias yag='yarn gulp'
+alias yb='yarn build'
+alias yw='yarn watch'
+
+# You-get Video downloader - https://you-get.org/
+alias yg='you-get'
+alias ygi='yg -i'
+
+# Tmux
+alias etm='vim ~/.tmux.conf; rtm'
+alias tmu='tmux -f ~/.tmux.conf'
+alias ta='tmu a'
+alias tt='tmu a -t'
+alias td='tmu detach'
+alias tls='tmu ls'
+alias rtm='tmu source ~/.tmux.conf'
+alias txa='tmu kill-server'
+alias tks='tmu kill-server'
+alias tx='tmu kill-session'
+alias px='tmu kill-pane'
+alias wx='tmu kill-window'
+alias ch='clear && tmu clear-history'
+# tm - create new tmux session, or switch to existing one. Works from within tmux too. (@bag-man)
+# `tm` will allow you to select your tmux session via fzf.
+# `tm irc` will attach to the irc session (if it exists), else it will create it.
+tm() {
+  [[ -n "$TMUX" ]] && change="switch-client" || change="attach-session"
+  if [ $1 ]; then
+    tmux $change -t "$1" 2>/dev/null || (tmux new-session -d -s $1 && tmux $change -t "$1"); return
+  fi
+  session=$(tmux list-sessions -F "#{session_name}" 2>/dev/null | fzf --exit-0) &&  tmux $change -t "$session" || echo "No sessions found."
+}
+
+# cht.sh CheatSheet
+cheat() {
+  echo curl cht.sh/"$1"/"$2"
+  curl cht.sh/"$1"/"$2"
+}
+
+# fasd init
+eval "$(fasd --init zsh-wcomp-install zsh-hook zsh-ccomp)"
+#alias z='fasd_cd -d'   # 居然可以 `cp ,faq<tab>` -> `cp /Users/twinkledj/Projects/KKBOX/web-faq-58`
+unalias z > /dev/null 2>&1
+z() {
+    fasd_cd -d | ag ${1} > /dev/null && fasd_cd -d ${1}
+    if [[ $? -ne 0 ]]; then
+       echo "index updated"
+       _z ${1}
+    fi
+}
+
