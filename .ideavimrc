@@ -1,0 +1,82 @@
+# IdeaVim
+set idearefactormode=select  # select(default), keep, visual
+
+# 內建的樣子
+nmap <S-Up> v<Up>
+nmap <S-Down> v<Down>
+nmap <S-Left> v<Left>
+nmap <S-Right> v<Right>
+vmap <S-Up> <Up>
+vmap <S-Down> <Down>
+vmap <S-Left> <Left>
+vmap <S-Right> <Right>
+imap <S-Up> <Esc>v<Up>
+imap <S-Down> <Esc>v<Down>
+imap <S-Left> <Esc>v<Left>
+imap <S-Right> <Esc>v<Right>
+
+# Easy Motion
+let mapleader=" "
+let g:EasyMotion_do_mapping = 0
+set easymotion
+
+
+" Reload Config .vimrc
+source ~/.vimrc
+nmap   <C-S-l>     :so ~/.vimrc<cr>:so ~/.ideavimrc<cr>:echo "~/.ideavimrc Loaded"<cr>
+imap   <C-S-l>     <C-o><C-S-l>
+
+" Copy a previous function, zo is :actoin ReformatCode
+nmap zct    mb?}<CR>v?@test<CR>?/\*\*<CR>y`bP?func<CR>f lzozz
+imap zct    <esc>zct
+nmap zcf    mb?}<CR>v?function<CR>^y`bP?func<cr>f lzozz
+imap zcf    <esc>zcf
+
+
+" ===================================================
+" ======== 放一些 PHPStorm only 系列的快捷 ==========
+" ===================================================
+
+" 重整程式碼
+nnoremap zo     :action ReformatCode<cr>
+vnoremap zo     :action ReformatCode<cr>
+imap     zo     <C-o>zo
+
+" 跑測試
+nnoremap zra    zz:action ReformatCode<cr>:action Run<cr>
+imap     zra    <esc>zra
+nnoremap zrr    zz:action ReformatCode<cr>:action Rerun<cr>
+imap     zrr    <esc>zrr
+
+" Re'F'actor 重構系列
+nnoremap zfr    :action RenameElement<cr>
+imap     zfr    <esc>zfr
+nnoremap zfv    :action IntroduceVariable<cr>
+imap     zfv    <esc>zfv
+nnoremap zfi    :action Inline<cr>
+imap     zfi    <esc>zfi
+nnoremap zff    :action IntroduceField<cr>
+imap     zff    <esc>zff
+nnoremap zfp    :action IntroduceParameter<cr>
+imap     zfp    <esc>zfp
+vnoremap zfm    :action ExtractMethod<cr>
+
+" 移動系列 還不想熟的先用 Vim 原生的處理，但先記下來想加的
+" p.s. 還是有差，用 zn 跳的要 zk 才回得去
+nnoremap zk     :action Back<cr>
+imap     zk     <esc>zk
+nnoremap zj     :action Forward<cr>
+imap     zj     <esc>zj
+nnoremap zd     :action GoToDeclaration<cr>
+imap     zd     <esc>zd
+nnoremap zn     :action GotoNextError<cr>
+imap     zn     <esc>zn
+nnoremap zp     :action GotoPreviousError<cr>
+imap     zp     <esc>zp
+
+"PHP Speicific 
+imap     <A-.>  ->
+imap     <A-,>  <C-o>A,
+nmap     <A-;>  A;<esc>
+imap     <A-;>  <C-o>A;
+
