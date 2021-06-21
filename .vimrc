@@ -1,9 +1,7 @@
 syntax on
 set nocompatible                        "不使用 Vi 舊設定的樣子, 不太確定用途
-set cursorline
+set cursorline                          "高亮目前所在行數
 set wildmenu                            "讓 help 時更好用 :h pyt<tab>
-
-let mapleader=' '                       "The default leader
 set expandtab				"用 space 取代 tab
 set tabstop=8				"設成tab是8個空白，這樣會比較明顯，該取代成空白
 set softtabstop=4			"設成insert mode 按tab會變4個空白
@@ -13,27 +11,39 @@ set relativenumber                      "設定行號為相對行號!!! 好用
 set laststatus=2                        "給 airline 顯示用
 set noshowmode                          "有 airline 就不需要最底下狀態列
 set backspace=indent,eol,start          "Make backspace behave like every other editor.
-
-"-------------- Search --------------"
-set hlsearch
-set incsearch
-
+set scrolloff=8                         "這個太棒了，不用每次都捲到最下面看不到後文
+set updatetime=50
+set timeoutlen=700                      "按下組合鍵不用等太久
+set ttimeoutlen=10                      "<C-o> 在 insert mode 不用等太久
 set nowrap                              "No wrap
 set nu                                  "Line number
 set smartindent
 set ic                                  "搜尋時 Ignore case"
 
-set scrolloff=8                         "這個太棒了，不用每次都捲到最下面看不到後文
-set updatetime=50
-set timeoutlen=700                      "按下組合鍵不用等太久
-set ttimeoutlen=10                      "<C-o> 在 insert mode 不用等太久
+"-------------- Vim Life Easier ---------
+" ref: https://www.youtube.com/watch?v=I0PrxH53Rfc
+vnoremap ; :
+nnoremap ; :
+
+" 用 up 取代 :w 存檔!! 才不會動到 update timestamp
+" 其實 zz 也有這功用，沒改動不會 write
+inoremap ZW    <C-o>:up<cr>
+nnoremap ZW    :up<cr>
+nnoremap WW    :up<cr>
+nnoremap WQ    :up<cr>:q!<cr>
+
+
+"-------------- Search --------------"
+set hlsearch
+set incsearch
 
 "-------------- Mappings ----------------"
 " 快速鍵新增原則: 2021/6/18 熟練之前，
 " 先以原 Vim key 為主練習不忘為主，
 " 再設新 keybind，除非實在太難按。
-nnoremap <leader>ev  :e ~/.vimrc<cr>
-nnoremap <leader>eiv :e ~/.ideavimrc<cr>
+let mapleader=' '                       "The default leader
+nnoremap <leader>ev  :tabe ~/.vimrc<cr>
+nnoremap <leader>eiv :tabe ~/.ideavimrc<cr>
 nnoremap <leader>egv :e ~/.gvimrc<cr>
 nnoremap <leader>pi  :call SourceAndPluginInstall()<cr>
 nnoremap <C-S-l>     :so ~/.vimrc<cr>:echo "~/.vimrc Reloaded"<cr>
@@ -58,10 +68,7 @@ nnoremap <cr>    o<esc>
 noremap  <C-S-a> <C-x>
 inoremap <C-S-a> <esc><C-x>
 
-"-------------- Save ---------------"
-inoremap ZW    <C-o>:w<cr>
-nnoremap ZW    :w<cr>
-nnoremap WW    :w<cr>
+"-------------- Quit ---------------"
 nnoremap QQ    :q!<cr>
 
 "Enter normal mode when type jj or JK in insert mode

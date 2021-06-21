@@ -23,7 +23,7 @@ if has("gui_running")
     set guioptions-=r  			"拿掉右側 scroll bar
     set guioptions-=R  			"分割畫面時拿掉右側 scroll bar
 
-    set nocursorline
+    "set nocursorline
     set showcmd
 
     augroup autosourcing
