@@ -1,3 +1,14 @@
+"  ______  __      __  __  __          __            
+" /\__  _\/\ \  __/\ \/\ \/\ \        /\ \    __     
+" \/_/\ \/\ \ \/\ \ \ \ \ \/'/'       \_\ \  /\_\    
+"    \ \ \ \ \ \ \ \ \ \ \ , <        /'_` \ \/\ \   
+"     \ \ \ \ \ \_/ \_\ \ \ \\`\     /\ \L\ \ \ \ \  
+"      \ \_\ \ `\___x___/\ \_\ \_\   \ \___,_\_\ \ \ 
+"       \/_/  '\/__//__/  \/_/\/_/    \/__,_ /\ \_\ \
+"                                            \ \____/
+"                                             \/___/ 
+
+" Basic Settings {{{
 syntax on
 set nocompatible                        "不使用 Vi 舊設定的樣子, 不太確定用途
 set cursorline                          "高亮目前所在行數
@@ -20,7 +31,13 @@ set nu                                  "Line number
 set smartindent
 set ic                                  "搜尋時 Ignore case"
 
-"-------------- Vim Life Easier ---------
+"-------------- Search --------------"
+set hlsearch
+set incsearch
+
+" }}}
+
+" Vim Life Easier {{{
 " ref: https://www.youtube.com/watch?v=I0PrxH53Rfc
 vnoremap ; :
 nnoremap ; :
@@ -32,12 +49,9 @@ nnoremap ZW    :up<cr>
 nnoremap WW    :up<cr>
 nnoremap WQ    :up<cr>:q!<cr>
 
+" }}}
 
-"-------------- Search --------------"
-set hlsearch
-set incsearch
-
-"-------------- Mappings ----------------"
+"  Mappings {{{
 " 快速鍵新增原則: 2021/6/18 熟練之前，
 " 先以原 Vim key 為主練習不忘為主，
 " 再設新 keybind，除非實在太難按。
@@ -134,7 +148,9 @@ vnoremap <leader>p   "0p
 nnoremap <leader>P   "0P
 vnoremap <leader>P   "0P
 
-"------------- Plugins Customized --------------
+" }}}
+
+"  Plugins Customized {{{ 
 "Githutter Mappings
 nmap <leader>hn  <Plug>(GitGutterNextHunk)
 nmap <leader>hp  <Plug>(GitGutterPrevHunk)
@@ -170,23 +186,9 @@ xmap ga  <Plug>(EasyAlign)
 " Start interactive EasyAlign for a motion/text object (e.g. gaip)
 nmap ga  <Plug>(EasyAlign)
 
+" }}}
 
-"--------------Split Management ----------------
-"set splitbelow   "我比較不喜歡
-"set splitleft    "我比較不喜歡
-
-" :vsp, :sp  垂直/水平分割，常用再來設快速鍵
-" ^W ^W, ^W ^L, ^W ^K 是預設跳轉用的快捷鍵
-" ^W | 最大化  ^W = 平均分配
-
-"------------- Functions --------------"
-function! SourceAndPluginInstall()
-    :PlugInstall
-    :sleep 2
-    :q
-endfunction
-
-"-------------- Plugins ----------------"
+" Plugins Installed {{{ 
 set rtp+=/usr/local/opt/fzf
 call plug#begin('~/.vim/plugged')
 
@@ -248,7 +250,9 @@ nmap <leader>co  :HexokinaseToggle<cr>
 " Vim-rainbow 讓括號成對顯示顏色
 " let g:rainbow_active = 1
 
+" }}}
 
+" Etc. AutoCommand, Split, Functions  {{{
 
 "-------------- Auto-Commands -------------"
 "Automatically source the Vimrc on save
@@ -262,4 +266,21 @@ if !has("gui_running")
     augroup END
 endif
 
-imap <A-.>  i;;;
+"--------------Split Management ----------------
+"set splitbelow   "我比較不喜歡
+"set splitleft    "我比較不喜歡
+
+" :vsp, :sp  垂直/水平分割，常用再來設快速鍵
+" ^W ^W, ^W ^L, ^W ^K 是預設跳轉用的快捷鍵
+" ^W | 最大化  ^W = 平均分配
+
+"------------- Functions --------------"
+function! SourceAndPluginInstall()
+    :PlugInstall
+    :sleep 2
+    :q
+endfunction
+
+" }}}
+
+" vim: foldmethod=marker:foldlevel=0
