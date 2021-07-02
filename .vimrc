@@ -1,12 +1,13 @@
-"  ______  __      __  __  __          __            
-" /\__  _\/\ \  __/\ \/\ \/\ \        /\ \    __     
-" \/_/\ \/\ \ \/\ \ \ \ \ \/'/'       \_\ \  /\_\    
-"    \ \ \ \ \ \ \ \ \ \ \ , <        /'_` \ \/\ \   
-"     \ \ \ \ \ \_/ \_\ \ \ \\`\     /\ \L\ \ \ \ \  
-"      \ \_\ \ `\___x___/\ \_\ \_\   \ \___,_\_\ \ \ 
+"  ______  __      __  __  __          __
+" /\__  _\/\ \  __/\ \/\ \/\ \        /\ \    __
+" \/_/\ \/\ \ \/\ \ \ \ \ \/'/'       \_\ \  /\_\
+"    \ \ \ \ \ \ \ \ \ \ \ , <        /'_` \ \/\ \
+"     \ \ \ \ \ \_/ \_\ \ \ \\`\     /\ \L\ \ \ \ \
+"      \ \_\ \ `\___x___/\ \_\ \_\   \ \___,_\_\ \ \
 "       \/_/  '\/__//__/  \/_/\/_/    \/__,_ /\ \_\ \
 "                                            \ \____/
-"                                             \/___/ 
+"                                             \/___/
+" GitHub: https://github.com/dj1020/dotfiles
 
 " Basic Settings {{{
 syntax on
@@ -38,69 +39,71 @@ set incsearch
 " }}}
 
 " Vim Life Easier {{{
-" ref: https://www.youtube.com/watch?v=I0PrxH53Rfc
-vnoremap ; :
-nnoremap ; :
+noremap  zz     zz<C-e><C-e><C-e>
 
 " 用 up 取代 :w 存檔!! 才不會動到 update timestamp
 " 其實 zz 也有這功用，沒改動不會 write
 inoremap ZW    <C-o>:up<cr>
 nnoremap ZW    :up<cr>
-nnoremap WW    :up<cr>
-nnoremap WQ    :up<cr>:q!<cr>
+nnoremap qq    :up<cr>
+nnoremap qw    :up<cr>:q!<cr>
 
 " }}}
 
-"  Mappings {{{
+"  Key Mappings {{{
 " 快速鍵新增原則: 2021/6/18 熟練之前，
 " 先以原 Vim key 為主練習不忘為主，
 " 再設新 keybind，除非實在太難按。
 let mapleader=' '                       "The default leader
-nnoremap <leader>ev  :tabe ~/.vimrc<cr>
-nnoremap <leader>eiv :tabe ~/.ideavimrc<cr>
-nnoremap <leader>egv :e ~/.gvimrc<cr>
-nnoremap <leader>pi  :call SourceAndPluginInstall()<cr>
-nnoremap <C-S-l>     :so ~/.vimrc<cr>:echo "~/.vimrc Reloaded"<cr>
-imap     <C-S-l>     <C-o><C-S-l>
-nnoremap <leader>,   :nohlsearch<cr>
+noremap <leader>ev      :tabe ~/.vimrc<cr>
+noremap <leader>eiv     :tabe ~/.ideavimrc<cr>
+noremap <leader>egv     :tabe ~/.gvimrc<cr>
+noremap <leader>pi      :call SourceAndPluginInstall()<cr>
+noremap <leader>,       :nohlsearch<cr>
+noremap <leader>rl      :so ~/.vimrc<cr>:echo "~/.vimrc Reloaded"<cr>
 
 "-------------- Search --------------
-nmap z/          /
-imap z/          <esc>/
-vmap z/          <esc>/
-nmap z.          ?
-imap z.          <esc>?
-vmap z.          <esc>?
+noremap z/          /
+imap    z/          <esc>/
+noremap z'          ?
+imap    z'          <esc>z'
+noremap z[          /[<cr>
+imap    z[          <esc>z[
+noremap zF          F
+imap    zF          <esc>zF
+noremap zf          f
+imap    zf          <esc>zf
 
 "-------------- Editing Shortcuts ------------"
 inoremap AA      <esc>A
 inoremap II      <esc>I
 inoremap zcb     <C-o>cb
 nnoremap <BS>    i<BS>
-nnoremap <cr>    o<esc>
+nnoremap <cr>    O<esc>
+nnoremap <S-cr>  o<esc>
 "<C-a> Increase Number / <C-S-a> Decrease Number
+imap     <C-a>   <esc><C-a>
 noremap  <C-S-a> <C-x>
 inoremap <C-S-a> <esc><C-x>
+" ci' 往前版，不時會用上
+noremap  zcc     ?'<cr>ci'
+imap     zcc     <esc>zcc
 
 "-------------- Quit ---------------"
-nnoremap QQ    :q!<cr>
+nnoremap QQ      :q!<cr>
 
-"Enter normal mode when type jj or JK in insert mode
-inoremap jj    <esc>
-inoremap jk    <esc>
-inoremap <C-a> <esc>
+"Enter normal mode when type jk in insert mode
+inoremap jk      <esc>
 
 "Movement hotkeys
-nmap     zh      ^
-vmap     zh      ^
+noremap  zh      ^
 imap     zh      <esc>^
-nmap     zl      $
-vmap     zl      $be
-imap     zl      <esc>$a
+noremap  zl      g_
+imap     zl      <esc>g_a
 "往返前一個位置``，但不到行首''，是跳到column
 nnoremap ''      ``
 
-"Movement 系列，定位 (), {} 的方式，尾字大寫"反向"
+"Movement 系列，定位 (), {} 的方式，尾字大寫"反向"，搭配 n/N 使用
 nnoremap gbj     /(<cr>
 nnoremap gbJ     ?(<cr>
 nnoremap gbk     /)<cr>
@@ -142,34 +145,55 @@ nnoremap z;      i<esc>g_a;<esc>
 nnoremap z,      g_a,<esc>
 inoremap z,      <esc>g_a,
 
+"------------- Clipboard 剪貼相關 ----------------
 "貼上的快速鍵, 但不是從 deleted 的來的
-nnoremap <leader>p   "0p
-vnoremap <leader>p   "0p
-nnoremap <leader>P   "0P
-vnoremap <leader>P   "0P
+noremap <leader>p   "0p
+noremap <leader>P   "0P
+"複製到 System Clipboard
+noremap <leader>yy  ^"*yg_
+noremap <leader>Y   ^"*yy
+noremap <leader>yl  "*yg_
+noremap <leader>yh  v^"*y
+
+" Tabs 操作
+noremap <leader>l  gt
+noremap <C-l>      gt
+noremap <leader>h  gT
+noremap <C-h>      gT
 
 " }}}
 
-"  Plugins Customized {{{ 
-"Githutter Mappings
-nmap <leader>hn  <Plug>(GitGutterNextHunk)
-nmap <leader>hp  <Plug>(GitGutterPrevHunk)
-nmap <leader>hr  <Plug>(GitGutterPreviewHunk)
-nmap <leader>hc  :call gitgutter#hunk#close_hunk_preview_window()<cr>
+"  Plugins Customized {{{
+"Gitgutter Mappings
+nmap <leader>,n  <Plug>(GitGutterNextHunk)
+nmap <leader>,p  <Plug>(GitGutterPrevHunk)
+nmap <leader>,r  <Plug>(GitGutterPreviewHunk)
+nmap <leader>,c  :call gitgutter#hunk#close_hunk_preview_window()<cr>
 
 "EasyMotion
 let g:EasyMotion_do_mapping = 0
 let g:EasyMotion_smartcase = 1
 map  <leader>j    <Plug>(easymotion-bd-f)
-map  <leader>e    <Plug>(easymotion-bd-e)
+map  <leader>e    <Plug>(easymotion-bd-E)
 map  <leader>/    <Plug>(easymotion-bd-w)
 
+"Movement by easymotion，天啊! 忘了不能下 nore 不然整個在 PhpStorm 都失效
+map  ze         <Plug>(easymotion-bd-E)
+map  z<Space>   <Plug>(easymotion-bd-f)
+imap z<Space>   <esc>z<Space>
+map  zg         <Plug>(easymotion-bd-jk)
+imap zg         <esc>zg
+map  zx         <Plug>(easymotion-bd-w)
+imap zx         <esc>zx
+
 "NERDTree
-nnoremap <leader>1    :NERDTreeToggle<cr>
+if !has("gui_running")
+    nnoremap <leader>1    :NERDTreeToggle<cr>
+endif
 
 "Fzf
 noremap  <C-p>        :Files<cr>
-nnoremap <leader>r    :FZFMru<cr>
+nnoremap <leader>ru   :FZFMru<cr>
 
 "Vim-Surround
 "把 word 變 "word"
@@ -177,7 +201,7 @@ nmap <leader>s"   ysiw"
 "把 word 變 'word'
 nmap <leader>s'   ysiw'
 "把標示處括起來，準備打 function name
-vmap (            dmbi(<C-r>")<esc>`b
+vmap ((           dmbi(<C-r>")<esc>`b
 vmap af           dmbi(<C-r>")<C-o>`b
 
 " EasyAlign
@@ -188,7 +212,7 @@ nmap ga  <Plug>(EasyAlign)
 
 " }}}
 
-" Plugins Installed {{{ 
+" Plugins Installed {{{
 set rtp+=/usr/local/opt/fzf
 call plug#begin('~/.vim/plugged')
 
@@ -210,6 +234,9 @@ Plug 'morhetz/gruvbox'                                    " 感覺真的很厲�
 Plug 'tpope/vim-surround'                                 " ysiw", cs'", ds", yssb 或 yss)
 Plug 'junegunn/fzf.vim'                                   " Fuzzy file finder
 Plug 'pbogut/fzf-mru.vim'                                 " Fzf MRU (Most Recent Usage files)  :FZFMru
+Plug 'vim-scripts/argtextobj.vim'                         " daa, cia, to operate argument in functions
+Plug 'machakann/vim-highlightedyank'                      " 再 y 的時候會高亮 yank 了什麼地方
+Plug 'farmergreg/vim-lastplace'                           " 每次開檔案回到最後編輯位置, 還是裝外掛比較快
 
 call plug#end()
 
@@ -253,18 +280,23 @@ nmap <leader>co  :HexokinaseToggle<cr>
 " }}}
 
 " Etc. AutoCommand, Split, Functions  {{{
-
 "-------------- Auto-Commands -------------"
 "Automatically source the Vimrc on save
 "              trim trailing spaces
-
-if !has("gui_running")
-    augroup autosourcing
-        autocmd!
-        autocmd BufWritePost .vimrc source %
-        autocmd BufWritePre * :%s/\s\+$//e
-    augroup END
+"
+augroup autosourcing
+    autocmd!
+    autocmd BufWritePre * :%s/\s\+$//e
+    autocmd BufWritePost .vimrc source %
+augroup END
+" 如果目前檔案是 .vimrc 就移到最後編輯位置，如果有 fold 就 zo 打開
+" 這樣存檔後才不會自動關起來, 即使加了 vim-lastplace 這段還是有用！
+if ".vimrc" == expand('%:t')
+    if &foldenable && foldlevel(line(".")) > 0
+        normal! zozz
+    endif
 endif
+
 
 "--------------Split Management ----------------
 "set splitbelow   "我比較不喜歡
@@ -283,4 +315,6 @@ endfunction
 
 " }}}
 
-" vim: foldmethod=marker:foldlevel=0
+" 自動折疊, 用 :set foldmarker 看 marker 是什麼
+" vim:foldmethod=marker:foldlevel=0
+
