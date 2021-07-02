@@ -12,6 +12,7 @@ source ~/bin/tostaging_functions.sh
 alias vim='nvim'
 alias eal="vim ~/.aliases; source ~/.aliases"
 alias wowza="vim ~/bin/wowza; source ~/bin/wowza"
+alias work="vim ~/bin/work.aliases; source ~/bin/work.aliases"
 alias ealw="subl -w -n ~/bin/wowza && echo 'source ~bin/wowza' && source ~/bin/wowza"
 alias ral="source ~/.aliases"
 alias erc="vim ~/.zshrc; source ~/.zshrc"
@@ -68,7 +69,8 @@ alias ls='exa -g '
 alias l='lla'
 alias ll='ls -lh -snew'
 alias lla='ll -a'
-alias lg='lla | ag'
+alias lg='ls | ag'
+alias llg='lla | ag'
 
 ## Show hidden files
 alias l.='ls -d .*'
@@ -227,11 +229,13 @@ alias plb='git pull --rebase'
 alias tplb='tmp && plb && tmpd'
 alias ck='git checkout'
 alias ckb='ck -b'
+alias ckp='ck -'
 alias ckfh='ck -f HEAD'
 alias bra='git for-each-ref --sort=-committerdate refs/heads/ --format="%(authordate:short) %(color:red)%(objectname:short) %(color:yellow)%(refname:short)%(color:reset) (%(color:green)%(committerdate:relative)%(color:reset))" --color=always'
 alias bbr='bra | HEAD -n 12'
 alias br='git branch'
 alias brv='br -vvv | ag `currentBr`'
+alias brvvv='br -vvv'
 alias brg='br | ag '
 alias mgnf='git merge --no-ff'
 alias mg='git merge'
@@ -396,4 +400,10 @@ z() {
        _z ${1}
     fi
 }
+
+# Gitbook
+alias gb='gitbook'
+alias gbs='gb serve &; open http://localhost:4000 && fg'
+alias gbo='gs --open'
+alias gbi='gb install'
 
