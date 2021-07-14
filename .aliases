@@ -1,4 +1,4 @@
-# vim: syntax=zsh
+# vim: ft=sh
 source ~/bin/openrepo
 source ~/bin/sshcd
 source ~/bin/copypath
@@ -6,23 +6,24 @@ source ~/.aws/aws_aliases
 source ~/bin/follow
 source ~/bin/wowza
 source ~/bin/work.aliases
+source ~/bin/youtube/youtube.aliases
 source ~/bin/tostaging_functions.sh
 
 # others
 alias vim='nvim'
-alias eal="vim ~/.aliases; source ~/.aliases"
-alias wowza="vim ~/bin/wowza; source ~/bin/wowza"
-alias work="vim ~/bin/work.aliases; source ~/bin/work.aliases"
+alias eal="nvim ~/.aliases; source ~/.aliases"
+alias wowza="nvim ~/bin/wowza; source ~/bin/wowza"
+alias work="nvim ~/bin/work.aliases; source ~/bin/work.aliases"
 alias ealw="subl -w -n ~/bin/wowza && echo 'source ~bin/wowza' && source ~/bin/wowza"
 alias ral="source ~/.aliases"
-alias erc="vim ~/.zshrc; source ~/.zshrc"
+alias erc="nvim ~/.zshrc; source ~/.zshrc"
 alias rrc="source ~/.zshrc"
-alias etheme="vim ~/.oh-my-zsh/themes/twk_customize.zsh-theme"
-export EDITOR=vim
+alias etheme="nvim ~/.oh-my-zsh/themes/twk_customize.zsh-theme"
+export EDITOR=nvim
 alias pst='phpstorm'
 alias pstorm='phpstorm'
 alias crontab="VIM_CRONTAB=true crontab"
-alias sshconfig="vim ~/.ssh/config"
+alias sshconfig="nvim ~/.ssh/config"
 
 ## Vagrant Alias from Jeffery Way https://gist.github.com/JeffreyWay/af0ee7311abfde3e3b73
 alias lamp="curl -L -o 'install.sh' http://bit.ly/1hBfq57 && curl -L -o 'Vagrantfile' http://bit.ly/1mE3Qt9 && vagrant up"
@@ -46,7 +47,7 @@ alias apachectl='apache'
 # alias php='php -d display_errors'
 alias phpd='php -dxdebug.remote_autostart'
 alias php5='/Applications/MAMP/bin/php/php5.6.33/bin/php -c /Applications/MAMP/bin/php/php5.6.33/conf/php.ini'
-alias phplog='vim /Applications/MAMP/logs/php_error.log'
+alias phplog='nvim /Applications/MAMP/logs/php_error.log'
 
 ## Use trash instead of rm
 alias rm='trash'
@@ -68,7 +69,7 @@ alias c='clear'
 alias ls='exa -g '
 alias l='lla'
 alias ll='ls -lh -snew'
-alias lla='ll -a'
+alias lla='ls -la'
 alias lg='ls | ag'
 alias llg='lla | ag'
 
@@ -110,9 +111,9 @@ alias cp='cp -v'
 
 ## sudo vim
 alias vi='sudo vim'
-alias vimrc='vi ~/.vimrc.after'
-alias evm='vim ~/.vimrc'
-alias eivm='vim ~/.ideavimrc'
+alias vimrc='nvim ~/.vimrc.after'
+alias evm='nvim ~/.vimrc'
+alias eivm='nvim ~/.ideavimrc'
 
 ## Composer
 alias composer='php -n /usr/local/bin/composer'
@@ -359,7 +360,7 @@ alias yg='you-get'
 alias ygi='yg -i'
 
 # Tmux
-alias etm='vim ~/.tmux.conf; rtm'
+alias etm='nvim ~/.tmux.conf; rtm'
 alias tmu='tmux -f ~/.tmux.conf'
 alias ta='tmu a'
 alias tt='tmu a -t'
@@ -406,4 +407,9 @@ alias gb='gitbook'
 alias gbs='gb serve &; open http://localhost:4000 && fg'
 alias gbo='gs --open'
 alias gbi='gb install'
+
+# Dont' index node_modules by Spotlight
+# ref: https://forum.shakacode.com/t/speeding-up-macos-for-developers-by-configuring-spotlight-not-to-index-node-modules/1641
+alias fix-spotlight="find . -path '*node_modules/*' -prune -o -type d -name 'node_modules' -exec touch '{}/.metadata_never_index' \;"
+alias fix-spotlight-globally="find ~ -type d -path './.*' -prune -o -path './Pictures*' -prune -o -path './Library*' -prune -o -path '*node_modules/*' -prune -o -type d -name 'node_modules' -exec touch '{}/.metadata_never_index' \; -print"
 
