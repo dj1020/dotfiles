@@ -228,8 +228,13 @@ Plug 'farmergreg/vim-lastplace'                           " 每次開檔案回�
 Plug 'justinmk/vim-sneak'                                 " 按 s/S + 2 chars 就直接到位，';', ',' 來上下一個
 Plug 'numToStr/Comment.nvim'                              " gc2j, gcii, gc 來 comment lines 方便, 預設改 cm
 Plug 'vim-scripts/ReplaceWithRegister'                    " gr (go replacing), yiw 再 griw 可以直接貼上取代
+Plug 'ybian/smartim'                                      " normal mode 自動切換成英文輸入法
 
 call plug#end()
+
+" smartim
+let g:smartim_default = 'com.apple.keylayout.USExtended'
+
 
 " Plugin 'numToStr/Comment.nvim' from https://github.com/numToStr/Comment.nvim
 " 但 MacVim 會報錯qq 好像不能用 lua
