@@ -23,20 +23,25 @@ silent! set easymotion
 
 " Reload Config .vimrc
 source ~/.vimrc
-nmap   <C-S-l>     :so ~/.ideavimrc<cr>:echo "~/.ideavimrc Loaded"<cr>
-imap   <C-S-l>     <esc><C-S-l>a
+nmap    <leader>rl  <C-S-l>
+nmap    <C-S-l>     :so ~/.ideavimrc<cr>:echo "~/.ideavimrc Loaded"<cr>
+imap    <C-S-l>     <esc><C-S-l>a
 
 " HighlightedYank
 let g:highlightedyank_highlight_duration = 1000
 
 " Copy the previous function, zo is :actoin ReformatCode
-nmap qt    mb?}<CR>v?@test<CR>?/\*\*<CR>y`bP?func<CR>f lzozz
+" 舊版: nmap qt    mb?}<CR>v?@test<CR>?/\*\*<CR>y`bP?func<CR>f lzozz
+" 在 PHPUnit Test 中任意位置執行後，Duplicate 目前 Test Case 接在目前 case 之後，並移到 function name 開頭。
+nmap qt    ?@test<CR>?/\*\*<CR>V/func<CR>/{<CR>%y/func<CR>/{<CR>%o<esc>p/func<CR>f l
 nmap qf    mb?}<CR>v?function<CR>^y`bP?func<cr>f lzozz
 
 
 " ===================================================
 " ======== 放一些 PHPStorm only 系列的快捷 ==========
 " ===================================================
+" 找支援的 actoin:
+" 使用錄製的方式找，打開「IdeaVim: Track Action Id」
 
 " q 比 z 好按
 " 重整程式碼 Quick Organize
@@ -46,42 +51,48 @@ imap     qo     <C-o>qo
 " 跑測試 Quick Run a Test / ReRun
 nmap     qrr    :action ReformatCode<cr>:action Run<cr>zz
 imap     qrr    <esc>qrr
+nmap     qrt    zz:action RunClass<cr>
+imap     qrt    <esc>qrt
 nmap     qru    :action ReformatCode<cr>:action Rerun<cr>zz
 imap     qru    <esc>qru
 
 " 'Q'uick ReFactor 重構系列 {{{
 nnoremap qrn    :action RenameElement<cr>
-imap     qrn    <esc>qrr
+imap     qrn    <esc>qrn
 nnoremap qri    :action Inline<cr>
 imap     qri    <esc>qri
 nnoremap qrv    :action IntroduceVariable<cr>
+vmap     qrv    :action IntroduceVariable<cr>
 imap     qrv    <esc>qrv
-vmap     qrv    <esc>qrv
 nnoremap qrf    :action IntroduceField<cr>
+vmap     qrf    :action IntroduceField<cr>
 imap     qrf    <esc>qrf
-vmap     qrf    <esc>qrf
 nnoremap qrp    :action IntroduceParameter<cr>
+vmap     qrp    :action IntroduceParameter<cr>
 imap     qrp    <esc>qrp
-vmap     qrp    <esc>qrp
-nnoremap qrs    :action SurroundWithLiveTemplate<cr>
+nnoremap qrs    :action SurroundWith<cr>
+vmap     qrs    :action SurroundWith<cr>
 imap     qrs    <esc>qrs
-vmap     qrs    <esc>qrs
-vnoremap qrm    :action ExtractMethod<cr>
+noremap qrm    :action ExtractMethod<cr>
 
 " }}}
 
+" PhpStorm 內建指令系列
 " 移動系列 還不想熟的先用 Vim 原生的處理，但先記下來想加的
 " p.s. 還是有差，用 zn 跳的要 zk 才回得去
-nnoremap zk     :action Back<cr>
-imap     zk     <esc>zk
-nnoremap zj     :action Forward<cr>
-imap     zj     <esc>zj
-nnoremap zd     :action GoToDeclaration<cr>
+nmap     zd     :action GotoDeclaration<cr>
 imap     zd     <esc>zd
 nnoremap zn     :action GotoNextError<cr>:action ShowIntentionActions<cr>
 imap     zn     <esc>zn
 nnoremap zp     :action GotoPreviousError<cr>:action ShowIntentionActions<cr>
 imap     zp     <esc>zp
+
+" Next Git Chanhge Mark 跳到下個修
+nnoremap <leader>,n    :action VcsShowNextChangeMarker<cr>
+imap     <leader>,n    <C-o>z,n
+nnoremap <leader>,p    :action VcsShowPrevChangeMarker<cr>
+imap     <leader>,p    <C-o>z,p
+
 
 "Auto Word Completion
 imap     z.     <C-o>:action HippieCompletion<cr>
@@ -91,4 +102,14 @@ imap     <C-.>  ->
 
 " 自動折疊, 用 :set foldmarker 看 marker 是什麼
 " vim:foldmethod=marker:foldlevel=0
-"
+
+" Sneak https://github.com/Mishkun/ideavim-sneak/issues/15
+set sneak
+nmap    zF          <Plug>(sneak-S)
+imap    zF          <esc>zF
+nmap    zf          <Plug>(sneak-s)
+imap    zf          <esc>zf
+
+" Vim-surround
+set surround
+

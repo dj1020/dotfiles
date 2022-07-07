@@ -23,11 +23,11 @@ set relativenumber                      "設定行號為相對行號!!! 好用
 set laststatus=2                        "給 airline 顯示用
 set noshowmode                          "有 airline 就不需要最底下狀態列
 set backspace=indent,eol,start          "Make backspace behave like every other editor.
-set scrolloff=8                         "這個太棒了，不用每次都捲到最下面看不到後文
+set scrolloff=5                         "這個太棒了，不用每次都捲到最下面看不到後文
 set updatetime=50
 set timeoutlen=700                      "按下組合鍵不用等太久
 set ttimeoutlen=10                      "<C-o> 在 insert mode 不用等太久
-set nowrap                              "No wrap
+set wrap nolist                         "Soft-wrap 但不讓字斷在中間
 set nu                                  "Line number
 set smartindent
 set ic                                  "搜尋時 Ignore case"
@@ -50,44 +50,47 @@ nnoremap qw    :up<cr>:q!<cr>
 
 " }}}
 
+" Custom Commands {{{
+" 感覺有時候 leader key 沒那麼好用
+command Erc    :tabe ~/.vimrc
+command Ercp   :tabe ~/.ideavimrc
+command Ercg   :tabe ~/.gvimrc
+command Ercz   :tabe ~/.zshrc
+command Etm    :tabe ~/.tmux.conf
+command PI     :call SourceAndPluginInstall()
+command PClean :PlugClean
+" }}}
+
+
 "  Key Mappings {{{
 " 快速鍵新增原則: 2021/6/18 熟練之前，
 " 先以原 Vim key 為主練習不忘為主，
 " 再設新 keybind，除非實在太難按。
 let mapleader=' '                       "The default leader
-noremap <leader>ev      :tabe ~/.vimrc<cr>
-noremap <leader>eiv     :tabe ~/.ideavimrc<cr>
-noremap <leader>egv     :tabe ~/.gvimrc<cr>
-noremap <leader>pi      :call SourceAndPluginInstall()<cr>
-noremap <leader>,       :nohlsearch<cr>
-noremap <leader>rl      :so ~/.vimrc<cr>:echo "~/.vimrc Reloaded"<cr>
+noremap <leader>,      :nohlsearch<cr>
+noremap <leader>ral    :so $MYVIMRC<cr>:echo "~/.vimrc Reloaded"<cr>
+noremap <leader>tm     :tabe ~/.tmux.conf<cr>
 
 "-------------- Search --------------
 noremap z/          /
 imap    z/          <esc>/
 noremap z'          ?
 imap    z'          <esc>z'
-noremap z[          /[<cr>
-imap    z[          <esc>z[
-noremap zF          F
+nmap    S           <Plug>Sneak_S
+nmap    zF          <Plug>Sneak_S
 imap    zF          <esc>zF
-noremap zf          f
+nmap    s           <Plug>Sneak_s
+nmap    zf          <Plug>Sneak_s
 imap    zf          <esc>zf
 
 "-------------- Editing Shortcuts ------------"
-inoremap AA      <esc>A
-inoremap II      <esc>I
-inoremap zcb     <C-o>cb
 nnoremap <BS>    i<BS>
-nnoremap <cr>    O<esc>
-nnoremap <S-cr>  o<esc>
+nnoremap <cr>    <C-o>o
+nnoremap <S-cr>  i<cr><esc>
 "<C-a> Increase Number / <C-S-a> Decrease Number
 imap     <C-a>   <esc><C-a>
 noremap  <C-S-a> <C-x>
 inoremap <C-S-a> <esc><C-x>
-" ci' 往前版，不時會用上
-noremap  zcc     ?'<cr>ci'
-imap     zcc     <esc>zcc
 
 "-------------- Quit ---------------"
 nnoremap QQ      :q!<cr>
@@ -97,21 +100,11 @@ inoremap jk      <esc>
 
 "Movement hotkeys
 noremap  zh      ^
-imap     zh      <esc>^
+imap     zh      <esc>^i
 noremap  zl      g_
 imap     zl      <esc>g_a
 "往返前一個位置``，但不到行首''，是跳到column
 nnoremap ''      ``
-
-"Movement 系列，定位 (), {} 的方式，尾字大寫"反向"，搭配 n/N 使用
-nnoremap gbj     /(<cr>
-nnoremap gbJ     ?(<cr>
-nnoremap gbk     /)<cr>
-nnoremap gbK     ?)<cr>
-nnoremap gbh     /{<cr>
-nnoremap gbH     ?{<cr>
-nnoremap gbl     /}<cr>
-nnoremap gbL     ?}<cr>
 
 "選取括號內文
 nnoremap zvB     ?(<cr>nvib
@@ -119,31 +112,21 @@ imap     zvB     <esc>zbB
 nnoremap zvb     /)<cr>vib
 imap     zvb     <esc>zvb
 
-"向前後定位 (), {} 並進入插入模式
-nnoremap zbj     /(<cr>a
-imap     zbj     <esc>zbj
-nnoremap zbJ     ?(<cr>a
-imap     zbJ     <esc>zbJ
-nnoremap zbk     /)<cr>i
-imap     zbk     <esc>zbk
-nnoremap zbK     ?)<cr>i
-imap     zbK     <esc>zbK
-nnoremap zbh     /{<cr>o
-imap     zbh     <esc>zbh
-nnoremap zbH     ?{<cr>o
-imap     zbH     <esc>zbH
-nnoremap zbl     ?}<cr>O
-imap     zbl     <esc>zbl
-nnoremap zbL     /}<cr>O
-imap     zbL     <esc>zbL
+"清除括號內文
+inoremap zcb     <C-o>cib
+inoremap zbb     <C-o>caw
+
+" ci' 往前版，不時會用上
+noremap  zcc     ?'<cr>ci'
+imap     zcc     <esc>zcc
 
 "------------- Enter Character -------------------
 "在行尾加上分號 put semicolon at the end of line
 " g_ 是移到行尾，近似 $
-inoremap z;      <esc>g_a;<esc>
 nnoremap z;      i<esc>g_a;<esc>
+imap     z;      <esc>g_a;<esc>
 nnoremap z,      g_a,<esc>
-inoremap z,      <esc>g_a,
+imap     z,      <esc>g_a,
 
 "------------- Clipboard 剪貼相關 ----------------
 "貼上的快速鍵, 但不是從 deleted 的來的
@@ -152,6 +135,7 @@ noremap <leader>P   "0P
 "複製到 System Clipboard
 noremap <leader>yy  ^"*yg_
 noremap <leader>Y   ^"*yy
+noremap <leader>y   ^"*y
 noremap <leader>yl  "*yg_
 noremap <leader>yh  v^"*y
 
@@ -173,14 +157,15 @@ nmap <leader>,c  :call gitgutter#hunk#close_hunk_preview_window()<cr>
 "EasyMotion
 let g:EasyMotion_do_mapping = 0
 let g:EasyMotion_smartcase = 1
-map  <leader>j    <Plug>(easymotion-bd-f)
 map  <leader>e    <Plug>(easymotion-bd-E)
-map  <leader>/    <Plug>(easymotion-bd-w)
+"map  <leader>/    <Plug>(easymotion-bd-w)
+
+"Sneak
+let g:sneak#label = 1
 
 "Movement by easymotion，天啊! 忘了不能下 nore 不然整個在 PhpStorm 都失效
-map  ze         <Plug>(easymotion-bd-E)
-map  z<Space>   <Plug>(easymotion-bd-f)
-imap z<Space>   <esc>z<Space>
+map  ze         <Plug>(easymotion-bd-e)
+map  <leader><leader>  <Plug>(easymotion-bd-f)
 map  zg         <Plug>(easymotion-bd-jk)
 imap zg         <esc>zg
 map  zx         <Plug>(easymotion-bd-w)
@@ -212,7 +197,7 @@ nmap ga  <Plug>(EasyAlign)
 
 " }}}
 
-" Plugins Installed {{{
+" Plugins Installed by `vim-plug` {{{
 set rtp+=/usr/local/opt/fzf
 call plug#begin('~/.vim/plugged')
 
@@ -222,6 +207,9 @@ Plug 'junegunn/vim-easy-align'                            " viga = gaip
 Plug 'rrethy/vim-hexokinase', { 'do': 'make hexokinase' } " 取代 Colorizer
 Plug 'kana/vim-textobj-user'                              " 是 vim-textobj-entire 的 dependency
 Plug 'kana/vim-textobj-entire'                            " text-object, use `vae` to try
+Plug 'kana/vim-textobj-line'                              " cil, vil, cal, val Line 的 text object
+" Plug 'kana/vim-textobj-indent'                            " ii 選整個 indent 的 text object
+Plug 'michaeljsmith/vim-indent-object'                    " 同 'kana/vim-textobj-indent', 但可以用在 ideaVim
 Plug 'wellle/targets.vim'                                 " ci/, ci' 時會自動搜尋上下行
 Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
 Plug 'preservim/nerdcommenter'                            " <leader>c<space>, <leader>ci, <leader>cu
@@ -237,10 +225,28 @@ Plug 'pbogut/fzf-mru.vim'                                 " Fzf MRU (Most Recent
 Plug 'vim-scripts/argtextobj.vim'                         " daa, cia, to operate argument in functions
 Plug 'machakann/vim-highlightedyank'                      " 再 y 的時候會高亮 yank 了什麼地方
 Plug 'farmergreg/vim-lastplace'                           " 每次開檔案回到最後編輯位置, 還是裝外掛比較快
+Plug 'justinmk/vim-sneak'                                 " 按 s/S + 2 chars 就直接到位，';', ',' 來上下一個
+Plug 'numToStr/Comment.nvim'                              " gc2j, gcii, gc 來 comment lines 方便, 預設改 cm
+Plug 'vim-scripts/ReplaceWithRegister'                    " gr (go replacing), yiw 再 griw 可以直接貼上取代
 
 call plug#end()
 
-filetype plugin on
+" Plugin 'numToStr/Comment.nvim' from https://github.com/numToStr/Comment.nvim
+" 但 MacVim 會報錯qq 好像不能用 lua
+if !has("gui_running")
+lua << EOF
+require('Comment').setup({
+    toggler = {
+        line = 'cmm',
+        block = 'cmb',
+    },
+    opleader = {
+        line = 'cm',
+        block = 'cb',
+    }
+})
+EOF
+endif
 
 " 要先載入 onehalfdark 才能用
 "colorscheme onehalfdark
@@ -257,24 +263,10 @@ if !has("gui_running")
     "let g:airline#extensions#tabline#formatter = 'unique_tail_improved'
 endif
 
-" Gitgutter Settings
-set updatetime=150
-set signcolumn=yes
-let g:gitgutter_set_sign_backgrounds = 1
-let g:gitgutter_map_keys = 0
-highlight GitGutterAdd        guifg=#009900 ctermfg=2
-highlight GitGutterChange     guifg=#bbbb00 ctermfg=3
-highlight GitGutterDelete     guifg=#ff2222 ctermfg=1
-highlight GitGutterAddLine    guibg=#009900
-highlight GitGutterChangeLine guibg=#bbbb00
-highlight GitGutterDeleteLine guibg=#ff2222
+filetype plugin on
 
-" Colorizer 之 Hexokinase 設定
-let g:Hexokinase_highlighters = [ 'backgroundfull' ]
-set termguicolors
-nmap <leader>co  :HexokinaseToggle<cr>
-
-" Vim-rainbow 讓括號成對顯示顏色
+" 要先載入 onehalfdark 才能用
+" colorscheme onehalfdark
 " let g:rainbow_active = 1
 
 " }}}

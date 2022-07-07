@@ -12,7 +12,7 @@ if has("gui_running")
     set bg=dark
 
     "-------------- GUI Settings ------------"
-    set guifont=DejaVu_Sans_Mono_for_Powerline:h20
+    set guifont=DejaVu_Sans_Mono_for_Powerline:h18
     "set guifont=Source_Code_Pro_for_Powerline:h18
     "set guifont=Meslo_LG_M_for_Powerline:h18
 
