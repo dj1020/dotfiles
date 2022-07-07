@@ -1,6 +1,10 @@
 " IdeaVim
 silent! set idearefactormode=select  " select(default), keep, visual
 
+" IdeaVimExtension https://plugins.jetbrains.com/plugin/9615-ideavimextension
+set keep-english-in-normal
+let keep_input_source_in_normal='com.apple.keylayout.USExtended'
+
 " PhpStrom 內建移動選取: {{{
 nmap <S-Up> v<Up>
 nmap <S-Down> v<Down>
