@@ -22,7 +22,7 @@ imap <S-Right> <Esc>v<Right>
 " }}}
 
 " Easy Motion
-let mapleader=' '
+let mapleader=','
 silent! set easymotion
 
 " Reload Config .vimrc
@@ -53,11 +53,11 @@ noremap  qo     :action ReformatCode<cr>
 imap     qo     <C-o>qo
 
 " 跑測試 Quick Run a Test / ReRun
-nmap     qrr    :action ReformatCode<cr>:action Run<cr>zz
+nmap     qrr    :action ReformatCode<cr>:action Rerun<cr>zz
 imap     qrr    <esc>qrr
-nmap     qrt    zz:action RunClass<cr>
-imap     qrt    <esc>qrt
-nmap     qru    :action ReformatCode<cr>:action Rerun<cr>zz
+nmap     qrc    zz:action RunClass<cr>
+imap     qrc    <esc>qrc
+nmap     qru    :action ReformatCode<cr>:action Run<cr>zz
 imap     qru    <esc>qru
 
 " 'Q'uick ReFactor 重構系列 {{{
@@ -77,7 +77,7 @@ imap     qrp    <esc>qrp
 nnoremap qrs    :action SurroundWith<cr>
 vmap     qrs    :action SurroundWith<cr>
 imap     qrs    <esc>qrs
-noremap qrm    :action ExtractMethod<cr>
+noremap  qrm    :action ExtractMethod<cr>
 
 " }}}
 
@@ -86,9 +86,9 @@ noremap qrm    :action ExtractMethod<cr>
 " p.s. 還是有差，用 zn 跳的要 zk 才回得去
 nmap     zd     :action GotoDeclaration<cr>
 imap     zd     <esc>zd
-nnoremap zn     :action GotoNextError<cr>:action ShowIntentionActions<cr>
+nmap     zn     :action GotoNextError<cr>:action ShowIntentionActions<cr>
 imap     zn     <esc>zn
-nnoremap zp     :action GotoPreviousError<cr>:action ShowIntentionActions<cr>
+nmap     zp     :action GotoPreviousError<cr>:action ShowIntentionActions<cr>
 imap     zp     <esc>zp
 
 " Next Git Chanhge Mark 跳到下個修
@@ -116,4 +116,9 @@ imap    zf          <esc>zf
 
 " Vim-surround
 set surround
+
+" Vim-commentary
+set commentary
+
+
 

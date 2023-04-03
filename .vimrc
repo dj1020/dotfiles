@@ -23,17 +23,20 @@ set relativenumber                      "設定行號為相對行號!!! 好用
 set laststatus=2                        "給 airline 顯示用
 set noshowmode                          "有 airline 就不需要最底下狀態列
 set backspace=indent,eol,start          "Make backspace behave like every other editor.
-set scrolloff=5                         "這個太棒了，不用每次都捲到最下面看不到後文
-set updatetime=50
-set timeoutlen=700                      "按下組合鍵不用等太久
+set scrolloff=3                         "這個太棒了，不用每次都捲到最下面看不到後文
+set updatetime=60
+set timeoutlen=360                      "按下組合鍵不用等太久
 set ttimeoutlen=10                      "<C-o> 在 insert mode 不用等太久
 set wrap nolist                         "Soft-wrap 但不讓字斷在中間
 set nu                                  "Line number
 set smartindent
 set ic                                  "搜尋時 Ignore case"
 
+"把 $ 視為字詞一部份，方便選取 PHP variable
+set isk+=$
+
 "-------------- Search --------------"
-set hlsearch
+set nohlsearch
 set incsearch
 
 " }}}
@@ -52,13 +55,13 @@ nnoremap qw    :up<cr>:q!<cr>
 
 " Custom Commands {{{
 " 感覺有時候 leader key 沒那麼好用
-command Erc    :tabe ~/.vimrc
-command Ercp   :tabe ~/.ideavimrc
-command Ercg   :tabe ~/.gvimrc
-command Ercz   :tabe ~/.zshrc
-command Etm    :tabe ~/.tmux.conf
-command PI     :call SourceAndPluginInstall()
-command PClean :PlugClean
+command! Evm    :tabe ~/.vimrc
+command! Eivm   :tabe ~/.ideavimrc
+command! Egvm   :tabe ~/.gvimrc
+command! Ezrc   :tabe ~/.zshrc
+command! Etm    :tabe ~/.tmux.conf
+command! PI     :call SourceAndPluginInstall()
+command! PClean :PlugClean
 " }}}
 
 
@@ -66,8 +69,8 @@ command PClean :PlugClean
 " 快速鍵新增原則: 2021/6/18 熟練之前，
 " 先以原 Vim key 為主練習不忘為主，
 " 再設新 keybind，除非實在太難按。
-let mapleader=' '                       "The default leader
-noremap <leader>,      :nohlsearch<cr>
+let mapleader=','                       "The default leader
+noremap <leader><cr>     :nohlsearch<cr>
 noremap <leader>ral    :so $MYVIMRC<cr>:echo "~/.vimrc Reloaded"<cr>
 noremap <leader>tm     :tabe ~/.tmux.conf<cr>
 
@@ -85,15 +88,15 @@ imap    zf          <esc>zf
 
 "-------------- Editing Shortcuts ------------"
 nnoremap <BS>    i<BS>
-nnoremap <cr>    <C-o>o
-nnoremap <S-cr>  i<cr><esc>
+nmap <CR>        o
+nmap <S-CR>      i<CR>
 "<C-a> Increase Number / <C-S-a> Decrease Number
 imap     <C-a>   <esc><C-a>
 noremap  <C-S-a> <C-x>
 inoremap <C-S-a> <esc><C-x>
 
 "-------------- Quit ---------------"
-nnoremap QQ      :q!<cr>
+nnoremap QQ      :q!<CR>
 
 "Enter normal mode when type jk in insert mode
 inoremap jk      <esc>
@@ -117,27 +120,38 @@ inoremap zcb     <C-o>cib
 inoremap zbb     <C-o>caw
 
 " ci' 往前版，不時會用上
-noremap  zcc     ?'<cr>ci'
+noremap  zcc     ?'<cr>ci'<C-o>:noh<cr>
 imap     zcc     <esc>zcc
+
+" ciw 快速鍵
+imap    <C-w>    <c-o>ciw
+nmap    <C-w>    ciw
+
+" 快速選取 PHP vairalbe
+noremap  vis         bbhf$ve
+nmap     <leader>a   vis
 
 "------------- Enter Character -------------------
 "在行尾加上分號 put semicolon at the end of line
 " g_ 是移到行尾，近似 $
-nnoremap z;      i<esc>g_a;<esc>
-imap     z;      <esc>g_a;<esc>
-nnoremap z,      g_a,<esc>
-imap     z,      <esc>g_a,
+nmap     z;      $a;<esc>
+imap     z;      <c-o>$;
+nmap     z,      $a,<esc>
+imap     z,      <esc>$a,
+nmap     zs      ysiw
+imap     zs      <esc>ysiw
 
 "------------- Clipboard 剪貼相關 ----------------
 "貼上的快速鍵, 但不是從 deleted 的來的
-noremap <leader>p   "0p
-noremap <leader>P   "0P
-"複製到 System Clipboard
-noremap <leader>yy  ^"*yg_
-noremap <leader>Y   ^"*yy
-noremap <leader>y   ^"*y
-noremap <leader>yl  "*yg_
-noremap <leader>yh  v^"*y
+" gp 可以有移動到下一行效果，游標會和 cmd + v 的貼上結果一致
+nmap <leader>p   "0gp
+nmap <leader>P   "0gP
+
+"複製到 System Clipboard，要在 ideavim 中用不行用 noremap
+map <leader>Y    "*yy
+map <C-y>        "*y
+map <leader>,y   "*y
+
 
 " Tabs 操作
 noremap <leader>l  gt
@@ -210,6 +224,8 @@ Plug 'kana/vim-textobj-entire'                            " text-object, use `va
 Plug 'kana/vim-textobj-line'                              " cil, vil, cal, val Line 的 text object
 " Plug 'kana/vim-textobj-indent'                            " ii 選整個 indent 的 text object
 Plug 'michaeljsmith/vim-indent-object'                    " 同 'kana/vim-textobj-indent', 但可以用在 ideaVim
+Plug 'whatyouhide/vim-textobj-xmlattr'                    " 選取 xml/html 中的 tag property, ex: vix, vax
+Plug 'dbakker/vim-paragraph-motion'                       " 使用 vip 選取時，會連空白行也選進去，對應 { }
 Plug 'wellle/targets.vim'                                 " ci/, ci' 時會自動搜尋上下行
 Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
 Plug 'preservim/nerdcommenter'                            " <leader>c<space>, <leader>ci, <leader>cu
@@ -226,32 +242,15 @@ Plug 'vim-scripts/argtextobj.vim'                         " daa, cia, to operate
 Plug 'machakann/vim-highlightedyank'                      " 再 y 的時候會高亮 yank 了什麼地方
 Plug 'farmergreg/vim-lastplace'                           " 每次開檔案回到最後編輯位置, 還是裝外掛比較快
 Plug 'justinmk/vim-sneak'                                 " 按 s/S + 2 chars 就直接到位，';', ',' 來上下一個
-Plug 'numToStr/Comment.nvim'                              " gc2j, gcii, gc 來 comment lines 方便, 預設改 cm
 Plug 'vim-scripts/ReplaceWithRegister'                    " gr (go replacing), yiw 再 griw 可以直接貼上取代
 Plug 'ybian/smartim'                                      " normal mode 自動切換成英文輸入法
+Plug 'tyru/caw.vim'                                       " gc2j, gcii, gc 來 comment lines 方便
 
 call plug#end()
 
 " smartim
 let g:smartim_default = 'com.apple.keylayout.USExtended'
 
-
-" Plugin 'numToStr/Comment.nvim' from https://github.com/numToStr/Comment.nvim
-" 但 MacVim 會報錯qq 好像不能用 lua
-if !has("gui_running")
-lua << EOF
-require('Comment').setup({
-    toggler = {
-        line = 'cmm',
-        block = 'cmb',
-    },
-    opleader = {
-        line = 'cm',
-        block = 'cb',
-    }
-})
-EOF
-endif
 
 " 要先載入 onehalfdark 才能用
 "colorscheme onehalfdark
