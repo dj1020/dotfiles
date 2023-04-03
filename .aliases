@@ -11,12 +11,17 @@ source ~/bin/tostaging_functions.sh
 
 # others
 alias vim='nvim'
-alias eal="nvim ~/.aliases; source ~/.aliases"
-alias wowza="nvim ~/bin/wowza; source ~/bin/wowza"
-alias work="nvim ~/bin/work.aliases; source ~/bin/work.aliases"
-alias ealw="subl -w -n ~/bin/wowza && echo 'source ~bin/wowza' && source ~/bin/wowza"
+# alias eal="nvim ~/.aliases; source ~/.aliases"
+function eal() {
+    nvim ~/.aliases $1 $2 $3
+    source ~/.aliases
+}
+alias ewl="nvim ~/bin/work.aliases; source ~/bin/work.aliases"
 alias ral="source ~/.aliases"
 alias erc="nvim ~/.zshrc; source ~/.zshrc"
+alias eyrc="nvim ~/dotfiles/yabairc; yabai"
+alias earc="nvim ~/dotfiles/alacritty.yml"
+alias eprc="nvim ~/.p10k.zsh; source ~/.zshrc"
 alias rrc="source ~/.zshrc"
 alias etheme="nvim ~/.oh-my-zsh/themes/twk_customize.zsh-theme"
 export EDITOR=nvim
@@ -24,6 +29,7 @@ alias pst='phpstorm'
 alias pstorm='phpstorm'
 alias crontab="VIM_CRONTAB=true crontab"
 alias sshconfig="nvim ~/.ssh/config"
+alias curl='curl -is'
 
 ## Vagrant Alias from Jeffery Way https://gist.github.com/JeffreyWay/af0ee7311abfde3e3b73
 alias lamp="curl -L -o 'install.sh' http://bit.ly/1hBfq57 && curl -L -o 'Vagrantfile' http://bit.ly/1mE3Qt9 && vagrant up"
@@ -49,6 +55,11 @@ alias phpd='php -dxdebug.remote_autostart'
 alias php5='/Applications/MAMP/bin/php/php5.6.33/bin/php -c /Applications/MAMP/bin/php/php5.6.33/conf/php.ini'
 alias phplog='nvim /Applications/MAMP/logs/php_error.log'
 alias php60M='timeout 60 php -d memory_limit=1024M'
+alias unlinkphp='brew unlink php; brew unlink php@7.2; brew unlink php@7.4; brew unlink php@8.1'
+alias php82='unlinkphp && brew link --force php@8.2 && cprgu'
+alias php81='unlinkphp && brew link --force php@8.1 && cprgu'
+alias php74='unlinkphp && brew link --force php@7.4 && cprgu'
+alias php72='unlinkphp && brew link --force php@7.2 && cprgu'
 
 ## Sublime Text 3 editor quick start ##
 # ln -s /Applications/Sublime\ Text.app/Contents/SharedSupport/bin/subl /usr/local/bin/subl
@@ -78,6 +89,7 @@ alias ld='ll -d */'
 
 ## Colorful cat: 'bat' https://github.com/sharkdp/bat#syntax-highlighting
 alias cat='bat --paging=never -p'
+alias catp='bat --paging=always -p'
 alias bb='bat -p -n --color always'
 alias man='batman'
 
@@ -98,7 +110,8 @@ alias agp='ag --php'
 alias grep='grep --color=auto'
 alias egrep='egrep --color=auto'
 alias fgrep='fgrep --color=auto'
-alias aa='bb ~/.aliases -l bash | ag'
+alias aa='bb ~/.aliases ~/bin/work.aliases -l bash | ag'
+alias aaw='bb ~/bin/work.aliases -l bash | ag'
 
 alias rgi='rg -i -F'
 alias rgg='rg -uu'
@@ -126,6 +139,7 @@ alias cprrun='cpr run'
 alias cprr='cpr require'
 alias cpro='cpr browse'
 alias cpru='cpr update'
+alias cprgu='cpr global update'
 alias cpr5='php5 /usr/local/bin/composer'
 alias cpr5i='cpr5 install'
 alias cpr5r='cpr5 require'
@@ -207,7 +221,7 @@ alias tmp='git stash'
 alias tmpki='tmp --keep-index'
 alias tmpd='git stash pop'
 alias tmpdrop='git stash drop'
-alias tmps='git stash show -p'
+alias tmpdiff='git stash show -p'
 alias tmpsc='git stash show -p --color-words'
 alias tmpl='git stash list'
 alias tmpdropall='git stash clear'
@@ -224,6 +238,7 @@ alias diff='git difftool -y'
 alias tag='git tag'
 alias push='git push'
 alias pusht='git push --tags'
+alias pushd='git push origin --delete'
 alias pushu='currentBranch=`git rev-parse --abbrev-ref HEAD` && git push --set-upstream origin $currentBranch'
 alias plb='git pull --rebase'
 alias tplb='tmp && plb && tmpd'
@@ -246,6 +261,7 @@ alias ama='adda && amend'
 alias gd='git diff'
 alias gds='git diff --staged'
 alias gdsc='gds --color-words'
+alias gdsnc=$'gds \':!*.lock\''
 alias gdf='git diff'
 alias gdfc='gdf --color-words'
 alias gdh='git diff head'
@@ -302,6 +318,8 @@ alias ruc='ru | copy; echo "Copied: `pbpaste`"'
 alias brc='echo `currentBr` | copy; echo "Copied: `pbpaste`"'
 alias bru='echo `currentBr` | copy; echo "Copied: `pbpaste`"'
 alias rp='realpath'
+alias pwdc='pwd | copy'
+alias foldername='basename $(pwd)'
 
 # Open repo
 alias currentBr='git rev-parse --abbrev-ref HEAD'
@@ -326,14 +344,31 @@ alias curls='pbpaste > /tmp/cookie.txt && curl -b /tmp/cookie.txt'
 
 # Docker
 alias dk='docker'
-alias dksh='dk run -it --entrypoint /bin/sh '
-alias dkbash='dk run -it --entrypoint /bin/bash '
-alias dc='docker container'
-alias di='docker image'
-alias dis='docker images -a'
-alias dr='docker run'
-alias dbd='docker build'
+alias dksh='docker run -it --rm --entrypoint /bin/sh '
+alias dkbash='docker run -it --rm --entrypoint /bin/bash '
+alias dkc='docker container'
+alias dks='docker container stop'
+alias dkst='docker container start'
+alias dka='docker attach'
+alias dki='docker image'
+alias dkis='docker images'
+alias dkrmi='docker rmi'
+alias dkia='docker images -a'
+alias dkr='docker run'
+alias dkb='docker build'
 alias dkp='docker pull'
+alias dkh='docker history --no-trunc'
+dkesh() {
+  docker exec -it $1 /bin/sh
+}
+dkebash() {
+  docker exec -it $1 /bin/bash
+}
+
+# Docker Phpmyadmin
+alias phpmyadmin='open http://phpmyadmin.local:8787; \
+    docker run --rm --name myadmin -it -e PMA_HOST=host.docker.internal -e PMA_PORT=3306 -p 8787:80 \
+    phpmyadmin/phpmyadmin'
 
 # Monit
 alias monitup='z monit && monit && popd'
@@ -353,11 +388,14 @@ alias gadd="git status --short | fzf --multi --color=dark --cycle --border --ans
 alias ports="lsof -Pn -i4 | awk '{printf \"%10s %6s %5s %4s %-20s\n\", \$1, \$2, \$3, \$8, \$9}' | fzf --border --cycle --ansi --header-lines=1"
 
 # Yarn
-alias ya='yarn add'
-alias yad='yarn add -D'
-alias yag='yarn gulp'
-alias yb='yarn build'
-alias yw='yarn watch'
+alias y='yy'
+alias yy='yarn'
+alias ya='yy add'
+alias yad='yy add -D'
+alias yag='yy gulp'
+alias yb='yy build'
+alias yw='yy watch'
+alias yd='yy dev'
 
 # You-get Video downloader - https://you-get.org/
 alias yg='you-get'
@@ -395,16 +433,17 @@ cheat() {
 }
 
 # fasd init
-eval "$(fasd --init zsh-wcomp-install zsh-hook zsh-ccomp)"
-#alias z='fasd_cd -d'   # 居然可以 `cp ,faq<tab>` -> `cp /Users/twinkledj/Projects/KKBOX/web-faq-58`
-unalias z > /dev/null 2>&1
-z() {
-    fasd_cd -d | ag ${1} > /dev/null && fasd_cd -d ${1}
-    if [[ $? -ne 0 ]]; then
-       echo "index updated"
-       _z ${1}
-    fi
-}
+# eval "$(fasd --init zsh-wcomp-install zsh-hook zsh-ccomp)"
+# eval "$(fasd --init auto)"
+# alias z='fasd_cd -d'   # 居然可以 `cp ,faq<tab>` -> `cp /Users/twinkledj/Projects/KKBOX/web-faq-58`
+# unalias z > /dev/null 2>&1
+# z() {
+#     fasd_cd -d | ag ${1} > /dev/null && fasd_cd -d ${1}
+#     if [[ $? -ne 0 ]]; then
+#        echo "index updated"
+#        _z ${1}
+#     fi
+# }
 
 # Gitbook
 alias gb='gitbook'
@@ -417,3 +456,16 @@ alias gbi='gb install'
 alias fix-spotlight="find . -path '*node_modules/*' -prune -o -type d -name 'node_modules' -exec touch '{}/.metadata_never_index' \;"
 alias fix-spotlight-globally="find ~ -type d -path './.*' -prune -o -path './Pictures*' -prune -o -path './Library*' -prune -o -path '*node_modules/*' -prune -o -type d -name 'node_modules' -exec touch '{}/.metadata_never_index' \; -print"
 
+# Pakcage.json
+alias sc="cat package.json | jq '.scripts'"
+
+# Lazygit
+alias zg='lazygit'
+
+# Yabai
+alias yabai='brew services restart yabai'
+alias stopyabai='brew services stop yabai'
+alias statusyabai='brew services list | ag yabai'
+
+# skhd
+alias skhd='brew services restart skhd'
