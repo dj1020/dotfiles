@@ -19,7 +19,8 @@ function eal() {
 alias ewl="nvim ~/bin/work.aliases; source ~/bin/work.aliases"
 alias ral="source ~/.aliases"
 alias erc="nvim ~/.zshrc; source ~/.zshrc"
-alias eyrc="nvim ~/dotfiles/yabairc; yabai"
+alias eyrc="nvim ~/dotfiles/yabairc"
+alias esrc="nvim ~/dotfiles/skhdrc; skhd -r"
 alias earc="nvim ~/dotfiles/alacritty.yml"
 alias eprc="nvim ~/.p10k.zsh; source ~/.zshrc"
 alias rrc="source ~/.zshrc"
@@ -29,7 +30,7 @@ alias pst='phpstorm'
 alias pstorm='phpstorm'
 alias crontab="VIM_CRONTAB=true crontab"
 alias sshconfig="nvim ~/.ssh/config"
-alias curl='curl -is'
+alias curlis='curl -is'
 
 ## Vagrant Alias from Jeffery Way https://gist.github.com/JeffreyWay/af0ee7311abfde3e3b73
 alias lamp="curl -L -o 'install.sh' http://bit.ly/1hBfq57 && curl -L -o 'Vagrantfile' http://bit.ly/1mE3Qt9 && vagrant up"
@@ -463,9 +464,9 @@ alias sc="cat package.json | jq '.scripts'"
 alias zg='lazygit'
 
 # Yabai
-alias yabai='brew services restart yabai'
+alias yabairs='brew services restart yabai'
 alias stopyabai='brew services stop yabai'
 alias statusyabai='brew services list | ag yabai'
 
 # skhd
-alias skhd='brew services restart skhd'
+alias skhdrs='brew services restart skhd'

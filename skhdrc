@@ -1,3 +1,7 @@
+# vim: ft=bash
+#
+# 檔案存的話是即時生效！有改錯的話，全部 hotkey 都失效。
+#
 # focus window
 alt - h : yabai -m window --focus west
 alt - j : yabai -m window --focus south
@@ -10,27 +14,34 @@ shift + alt - j : yabai -m window --swap south
 shift + alt - k : yabai -m window --swap north
 shift + alt - l : yabai -m window --swap east
 
-# move managed window
-shift + alt + ctrl - h : yabai -m window --warp west
-shift + alt + ctrl - j : yabai -m window --warp south
-shift + alt + ctrl - k : yabai -m window --warp north
-shift + alt + ctrl - l : yabai -m window --warp east
+# focus display
+alt + ctrl - h : yabai -m display --focus west
+alt + ctrl - j : yabai -m display --focus south
+alt + ctrl - k : yabai -m display --focus north
+alt + ctrl - l : yabai -m display --focus east
+
+# move window to display
+alt + shift + ctrl - h : yabai -m window --display west; yabai -m display --focus west
+alt + shift + ctrl - j : yabai -m window --display south; yabai -m display --focus south
+alt + shift + ctrl - k : yabai -m window --display north; yabai -m display --focus north
+alt + shift + ctrl - l : yabai -m window --display east; yabai -m display --focus east
 
 # rotate tree
 alt - r : yabai -m space --rotate 90
 
 # toggle window fullscreen zoom
-alt - f : yabai -m window --toggle zoom-fullscreen
+alt - f : yabai -m window --toggle float; yabai -m window --resize top_left:40:40; yabai -m window --resize bottom_right:-40:-40
+alt - return : yabai -m window --toggle zoom-fullscreen
 
 # toggle padding and gap
 alt - g : yabai -m space --toggle padding; yabai -m space --toggle gap
 
 # float / unfloat window and center on screen
-alt - t : yabai -m window --toggle float;\
-          yabai -m window --grid 4:4:1:1:2:2
+alt - c : yabai -m window --toggle float;\
+          yabai -m window --grid 36:36:1:1:34:34
 
 # toggle window split type
-alt - e : yabai -m window --toggle split
+alt - s : yabai -m window --toggle split
 
 # balance size of windows
 shift + alt - 0 : yabai -m space --balance
@@ -46,23 +57,49 @@ shift + alt - 7 : yabai -m window --space 7; yabai -m space --focus 7
 shift + alt - 8 : yabai -m window --space 8; yabai -m space --focus 8
 shift + alt - 9 : yabai -m window --space 9; yabai -m space --focus 9
 
-# create desktop, move window and follow focus - uses jq for parsing json (brew install jq)
-shift + alt - n : yabai -m space --create && \
-                   index="$(yabai -m query --spaces --display | jq 'map(select(."native-fullscreen" == 0))[-1].index')" && \
-                   yabai -m window --space "${index}" && \
-                   yabai -m space --focus "${index}"
+# 修正版: create desktop, move window and follow focus - uses jq for parsing json (brew install jq), 要開 SIP 才能用
+# cmd + alt - n : yabai -m space --create && \
+#                    index="$(yabai -m query --spaces --display | jq 'map(select(."is-native-fullscreen" == false))[-1].index')" && \
+#                    yabai -m window --space "${index}" && \
+#                    yabai -m space --focus "${index}"
 
 # fast focus desktop
 alt - 0 : yabai -m space --focus recent
 
 # send window to monitor and follow focus
-shift + alt - n : yabai -m window --display next; yabai -m display --focus next
-shift + alt - p : yabai -m window --display previous; yabai -m display --focus previous
+# 目前用 raycast 的 next display 來設定
+# shift + alt - n : (yabai -m window --display next || yabai -m window --display first); (yabai -m display --focus next || yabai -m display --focus first)
+# shift + alt - p : (yabai -m window --display prev || yabai -m window --display last); (yabai -m display --focus prev || yabai -m window --display last)
+
+# 改用 raycast 的 next display, next desktop 管理
+# shift + alt - n : yabai -m window --space next || yabai -m window --space first; yabai -m space --focus next || yabai -m space --focus first
+# shift + alt - p : yabai -m window --space prev || yabai -m window --space last; yabai -m space --focus prev || yabai -m space --focus last
 
 # increase window size
-shift + alt - w : yabai -m window --resize top:0:-20
-shift + alt - d : yabai -m window --resize left:-20:0
+shift + alt - w : yabai -m window --resize top:0:-40
+shift + alt - d : yabai -m window --resize left:-40:0
 
 # decrease window size
-shift + alt - s : yabai -m window --resize bottom:0:-20
-shift + alt - a : yabai -m window --resize top:0:20
+shift + alt - s : yabai -m window --resize bottom:0:-40
+shift + alt - a : yabai -m window --resize top:0:40
+
+# restart yabai/skhd/alacritty
+cmd + alt + ctrl - r : brew services restart yabai
+cmd + alt + ctrl - s : brew services stop yabai
+cmd + alt + ctrl - h : brew services restart skhd
+cmd + alt + ctrl - y : launchctl kickstart -k "gui/${UID}/homebrew.mxcl.yabai"
+cmd + alt + ctrl - a : killall -USR1 Alacritty
+
+# Toggle Menu Bar
+ctrl + alt + cmd - m : ~/bin/menubar/menubar.sh -t
+
+# Application shortcuts, 為了配合 yabai 使用方便
+ctrl - 0x2C : yabai -m space --focus 1; open -a "Brave Browser"   # ctrl + /
+ctrl - 0x2B : yabai -m space --focus 2; open -a "Alacritty"       # ctrl + ,
+ctrl - 0x2F : yabai -m space --focus 3; open -a "PhpStorm"        # ctrl + ,
+ctrl - 0x27 : yabai -m space --focus 6; open -a "Slack"           # ctrl + '
+
+## focus 指定 App 成功，也許有用！
+# wid=$(yabai -m query --windows | jq "map(select(.app == \"Brave Browser\"))[0].id")
+# yabai -m window --focus $wid
+

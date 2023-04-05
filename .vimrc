@@ -8,6 +8,9 @@
 "                                            \ \____/
 "                                             \/___/
 " GitHub: https://github.com/dj1020/dotfiles
+"
+" 用 zc 收合 / zo 打開
+"
 
 " Basic Settings {{{
 syntax on
@@ -46,10 +49,11 @@ noremap  zz     zz<C-e><C-e><C-e>
 
 " 用 up 取代 :w 存檔!! 才不會動到 update timestamp
 " 其實 zz 也有這功用，沒改動不會 write
-inoremap ZW    <C-o>:up<cr>
-nnoremap ZW    :up<cr>
-nnoremap qq    :up<cr>
-nnoremap qw    :up<cr>:q!<cr>
+inoremap ZW          <C-o>:up<cr>
+nnoremap ZW          :up<cr>
+nnoremap <leader>zz  :up<cr>
+nnoremap qq          :up<cr>
+nnoremap qw          :up<cr>:q!<cr>
 
 " }}}
 
@@ -58,19 +62,20 @@ nnoremap qw    :up<cr>:q!<cr>
 command! Evm    :tabe ~/.vimrc
 command! Eivm   :tabe ~/.ideavimrc
 command! Egvm   :tabe ~/.gvimrc
-command! Ezrc   :tabe ~/.zshrc
+command! Erc   :tabe ~/.zshrc
 command! Etm    :tabe ~/.tmux.conf
+command! Eyrc   :tabe ~/dotfiles/yabairc
+command! Esrc   :tabe ~/dotfiles/skhdrc
 command! PI     :call SourceAndPluginInstall()
 command! PClean :PlugClean
 " }}}
-
 
 "  Key Mappings {{{
 " 快速鍵新增原則: 2021/6/18 熟練之前，
 " 先以原 Vim key 為主練習不忘為主，
 " 再設新 keybind，除非實在太難按。
-let mapleader=','                       "The default leader
-noremap <leader><cr>     :nohlsearch<cr>
+let mapleader=','
+noremap <leader><cr>   :nohlsearch<cr>
 noremap <leader>ral    :so $MYVIMRC<cr>:echo "~/.vimrc Reloaded"<cr>
 noremap <leader>tm     :tabe ~/.tmux.conf<cr>
 
@@ -110,14 +115,14 @@ imap     zl      <esc>g_a
 nnoremap ''      ``
 
 "選取括號內文
-nnoremap zvB     ?(<cr>nvib
+nnoremap zvB     ?(<cr>nvi(
 imap     zvB     <esc>zbB
-nnoremap zvb     /)<cr>vib
+nnoremap zvb     /)<cr>vi(
 imap     zvb     <esc>zvb
 
 "清除括號內文
-inoremap zcb     <C-o>cib
-inoremap zbb     <C-o>caw
+inoremap zcb     <C-o>ci(
+noremap  zcb     <C-o>ci(
 
 " ci' 往前版，不時會用上
 noremap  zcc     ?'<cr>ci'<C-o>:noh<cr>
@@ -126,10 +131,6 @@ imap     zcc     <esc>zcc
 " ciw 快速鍵
 imap    <C-w>    <c-o>ciw
 nmap    <C-w>    ciw
-
-" 快速選取 PHP vairalbe
-noremap  vis         bbhf$ve
-nmap     <leader>a   vis
 
 "------------- Enter Character -------------------
 "在行尾加上分號 put semicolon at the end of line
@@ -149,15 +150,13 @@ nmap <leader>P   "0gP
 
 "複製到 System Clipboard，要在 ideavim 中用不行用 noremap
 map <leader>Y    "*yy
-map <C-y>        "*y
+map <C-c>        "*y
 map <leader>,y   "*y
 
 
 " Tabs 操作
 noremap <leader>l  gt
-noremap <C-l>      gt
 noremap <leader>h  gT
-noremap <C-h>      gT
 
 " }}}
 
@@ -245,16 +244,22 @@ Plug 'justinmk/vim-sneak'                                 " 按 s/S + 2 chars �
 Plug 'vim-scripts/ReplaceWithRegister'                    " gr (go replacing), yiw 再 griw 可以直接貼上取代
 Plug 'ybian/smartim'                                      " normal mode 自動切換成英文輸入法
 Plug 'tyru/caw.vim'                                       " gc2j, gcii, gc 來 comment lines 方便
+Plug 'xiyaowong/transparent.nvim'                         " 設定背景透明 :TransparentEnable / :TransparentDisable / :TransparentToggle
 
 call plug#end()
 
 " smartim
 let g:smartim_default = 'com.apple.keylayout.USExtended'
 
-
 " 要先載入 onehalfdark 才能用
 "colorscheme onehalfdark
 autocmd vimenter * ++nested colorscheme gruvbox
+
+" 設定背景透明
+augroup user_colors
+  autocmd!
+  autocmd ColorScheme * highlight Normal ctermbg=NONE guibg=NONE
+augroup END
 
 " Fzf MRU
 let g:fzf_mru_no_sort = 1     "沒試過，避免 FZFMru 時被 fzf 給重排序，維持 recent 順序
