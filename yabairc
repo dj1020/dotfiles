@@ -11,17 +11,17 @@ yabai -m signal --add event=display_removed action="launchctl kickstart -k \"gui
 yabai -m signal --add event=display_added   action="launchctl kickstart -k \"gui/${UID}/homebrew.mxcl.yabai\""
 
 # apps to not manage (ignore)
-manageOffApps="^(System Settings|Archive Utility|Wally|Alfred Preferences|Sublime Text|LINE|App Store|Preferences|Shottr|Karabiner|1Password|Ivanti|Finder|Stats|Raycast|Software Update|About This Mac|Dictionary|IINA|BetterTouchTool|Automator)"
+manageOffApps="^(System Settings|Archive Utility|Wally|Alfred Preferences|Sublime Text|LINE|App Store|Preferences|Shottr|Karabiner|1Password|Ivanti|Finder|Stats|Raycast|Software Update|About This Mac|Dictionary|IINA|BetterTouchTool|Automator|TablePlus)"
 yabai -m rule --add app="${manageOffApps}" manage=off
 yabai -m rule --add app="cefBrowser" title="^Sign in" manage=off
 yabai -m rule --add title="^Open" manage=off
 
 # default app space
 yabai -m rule --add app="Brave"      space=^1
-yabai -m rule --add app="Alacritty"  space=^2
+yabai -m rule --add app="Slack"      space=^2
 yabai -m rule --add app="^PhpStorm"  space=^3
 yabai -m rule --add app="^Sublime"   space=^4
-yabai -m rule --add app="^Slack"     space=^5
+yabai -m rule --add app="Alacritty"  space=^5
 yabai -m rule --add app="^ChatGPT"   space=^5
 
 
